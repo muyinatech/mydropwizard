@@ -4,7 +4,8 @@
  */
 package muyinatech.health;
 
-import com.yammer.metrics.core.HealthCheck;
+import com.codahale.metrics.health.HealthCheck;
+
 /**
  *
  * @author Tosin
@@ -13,7 +14,6 @@ public class SimpleHealthCheck extends HealthCheck {
     private final String template;
 
     public SimpleHealthCheck(String template) {
-        super("template");
         this.template = template;
     }
 

@@ -9,10 +9,10 @@ import ch.qos.logback.core.FileAppender;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.RollingPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
+import io.dropwizard.Application;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
 import muyinatech.config.SimpleServiceConfiguration;
-import com.yammer.dropwizard.Service;
-import com.yammer.dropwizard.config.Bootstrap;
-import com.yammer.dropwizard.config.Environment;
 import muyinatech.health.SimpleHealthCheck;
 import muyinatech.resources.SimpleResource;
 import org.slf4j.LoggerFactory;
@@ -21,8 +21,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author Tosin
  */
-public class SimpleService extends Service<SimpleServiceConfiguration> {
+public class SimpleService extends Application<SimpleServiceConfiguration> {
 
+    
+    
     public static void main(String[] args) throws Exception {
         new SimpleService().run(args);
         createLoggerFor(Logger.ROOT_LOGGER_NAME, "simpleService.log");
@@ -30,16 +32,17 @@ public class SimpleService extends Service<SimpleServiceConfiguration> {
 
     @Override
     public void initialize(Bootstrap<SimpleServiceConfiguration> bootstrap) {
-        bootstrap.setName("hello-world"); // set service name
+
     }
 
     @Override
     public void run(SimpleServiceConfiguration configuration,
             Environment environment) {
+        System.out.println("here we go!");
         final String template = configuration.getTemplate();
         final String defaultName = configuration.getDefaultName();
-        environment.addResource(new SimpleResource(template, defaultName));
-        environment.addHealthCheck(new SimpleHealthCheck(template));
+        environment.jersey().register(new SimpleResource(template, defaultName));
+        environment.healthChecks().register("simple", new SimpleHealthCheck(template));
     }
     
     

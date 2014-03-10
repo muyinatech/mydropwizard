@@ -4,9 +4,8 @@
  */
 package muyinatech.resources;
 
+import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
-import com.yammer.metrics.annotation.Timed;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
